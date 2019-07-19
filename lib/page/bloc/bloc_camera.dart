@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:camera/camera.dart';
 import 'package:rxdart/rxdart.dart';
@@ -48,9 +49,14 @@ class BlocCamera {
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
-  void onTakePictureButtonPressed() {
-    takePicture().then((String filePath) {
-      imagePath.sink.add(File(filePath));
+  void onTakePictureButtonPressed(bool compressed) {
+    takePicture().then((String filePath) async {
+      if(compressed){
+        File compressed = await FlutterNativeImage.compressImage(filePath);
+        imagePath.sink.add(compressed);
+      } else {
+        imagePath.sink.add(File(filePath));
+      }
     });
   }
 

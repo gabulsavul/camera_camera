@@ -44,7 +44,6 @@ You can add widget top stack camera, Container, Images.png.
 ```dart
 
 Camera(
- 
  imageMask: Widget
 )
 
@@ -91,6 +90,14 @@ File file = await  Navigator.push(context, MaterialPageRoute(builder: (context) 
 
 ```
 
+### Other mode getFile
+```dart
+
+Camera(
+  onFile: (File file) => file;
+)
+
+```
 ![](https://i.imgur.com/AupuIRm.jpg)
 
 ![](https://i.imgur.com/N7tx5SQ.jpg)

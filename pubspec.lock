@@ -41,6 +41,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_native_image:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "426996b810c8ff3899a6109b65bdab143652e875"
+      url: "https://github.com/btastic/flutter_native_image.git"
+    source: git
+    version: "0.0.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter

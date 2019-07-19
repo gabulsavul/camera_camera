@@ -24,15 +24,18 @@ class Camera extends StatefulWidget {
   final CameraSide initialCamera;
   final bool cameraSideCanBeChanged;
   final bool showBackButton;
+  final Function(File image) onFile;
+  final bool compressFile;
   const Camera({Key key, 
     this.imageMask, 
     this.mode = CameraMode.fullscreen, 
     this.orientationEnablePhoto = CameraOrientation.all,
     this.initialCamera = CameraSide.back,
     this.cameraSideCanBeChanged = true,
-    this.showBackButton = true
-  })
-      : super(key: key);
+    this.showBackButton = true,
+    this.onFile,
+    this.compressFile = true
+  });
   @override
   _CameraState createState() => _CameraState();
 }
@@ -100,7 +103,7 @@ class _CameraState extends State<Camera> {
             ),
             onPressed: () {
               sizeImage = MediaQuery.of(context).size;
-              bloc.onTakePictureButtonPressed();
+              bloc.onTakePictureButtonPressed(widget.compressFile);
             },
           ),
           backgroundColor: Colors.black38,
@@ -135,8 +138,6 @@ class _CameraState extends State<Camera> {
         else{
           sizeImage = Size(height, width); 
         } 
-
-        print(sizeImage);
        
         return Scaffold(
           backgroundColor: Colors.black,
@@ -152,14 +153,12 @@ class _CameraState extends State<Camera> {
                       stream: bloc.imagePath.stream,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                         
                           return OrientationWidget(
                             orientation: orientation,
                             child: SizedBox(
-                            
                               height: sizeImage.height,
-                             width: sizeImage.height,
-                              child:  Image.file(snapshot.data, fit: BoxFit.contain),
+                              width: sizeImage.height,
+                              child:  Image.file(snapshot.data, fit: widget.mode == CameraMode.fullscreen ? BoxFit.cover : BoxFit.contain),
                             ),
                           );
                         } else {
@@ -173,8 +172,6 @@ class _CameraState extends State<Camera> {
                                         if (snapshot.data) {
                                           previewRatio =
                                               bloc.controllCamera.value.aspectRatio;
-                                              print(previewRatio);
-                                          
                                           return widget.mode == CameraMode.fullscreen
                                               ? OverflowBox(
                                                   maxHeight: size.height,
@@ -241,8 +238,13 @@ class _CameraState extends State<Camera> {
                                                 color: Colors.white),
                                           ),
                                           onPressed: () {
+                                            if(widget.onFile==null)
                                             Navigator.pop(
                                                 context, bloc.imagePath.value);
+                                            else{
+                                              widget.onFile(bloc.imagePath.value);
+                                              bloc.imagePath.add(null);
+                                            }  
                                           },
                                         ),
                                         backgroundColor: Colors.black38,
@@ -339,8 +341,13 @@ class _CameraState extends State<Camera> {
                                               color: Colors.white),
                                         ),
                                         onPressed: () {
+                                          if(widget.onFile==null)
                                           Navigator.pop(
                                               context, bloc.imagePath.value);
+                                          else{
+                                            widget.onFile(bloc.imagePath.value);
+                                            bloc.imagePath.add(null);
+                                          }    
                                         },
                                       ),
                                       backgroundColor: Colors.black38,
