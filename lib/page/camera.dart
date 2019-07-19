@@ -14,13 +14,24 @@ enum CameraOrientation{
   landscape,portrait,all
 }
 enum CameraMode { fullscreen, normal }
+enum CameraSide { front, back }
 
 
 class Camera extends StatefulWidget {
   final Widget imageMask;
   final CameraMode mode;
   final CameraOrientation orientationEnablePhoto;
-  const Camera({Key key, this.imageMask, this.mode = CameraMode.fullscreen, this.orientationEnablePhoto = CameraOrientation.all})
+  final CameraSide initialCamera;
+  final bool cameraSideCanBeChanged;
+  final bool showBackButton;
+  const Camera({Key key, 
+    this.imageMask, 
+    this.mode = CameraMode.fullscreen, 
+    this.orientationEnablePhoto = CameraOrientation.all,
+    this.initialCamera = CameraSide.back,
+    this.cameraSideCanBeChanged = true,
+    this.showBackButton = true
+  })
       : super(key: key);
   @override
   _CameraState createState() => _CameraState();
@@ -47,6 +58,7 @@ class _CameraState extends State<Camera> {
       bloc.cameraOn.sink.add(0);
       bloc.controllCamera.initialize().then((_) {
         bloc.selectCamera.sink.add(true);
+        if(widget.initialCamera == CameraSide.front) bloc.changeCamera();
       });
     });
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -70,9 +82,6 @@ class _CameraState extends State<Camera> {
     double width = size.width;
     double height = size.height; 
 
-    
-
-
     return NativeDeviceOrientationReader(
       useSensor: true,
       builder: (context) {
@@ -80,23 +89,23 @@ class _CameraState extends State<Camera> {
             NativeDeviceOrientationReader.orientation(context);
 
         _buttonPhoto() => CircleAvatar(
-                                      child: IconButton(
-                                        icon: OrientationWidget(
-                                          orientation: orientation,
-                                          child: Icon(
-                                            Icons.camera_alt,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          sizeImage =
-                                              MediaQuery.of(context).size;
-                                          bloc.onTakePictureButtonPressed();
-                                        },
-                                      ),
-                                      backgroundColor: Colors.black38,
-                                      radius: 25.0,
-                                    );  
+          child: IconButton(
+            icon: OrientationWidget(
+              orientation: orientation,
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+            onPressed: () {
+              sizeImage = MediaQuery.of(context).size;
+              bloc.onTakePictureButtonPressed();
+            },
+          ),
+          backgroundColor: Colors.black38,
+          radius: 25.0,
+        );  
 
     Widget _getButtonPhoto(){
       if(widget.orientationEnablePhoto == CameraOrientation.all){
@@ -242,10 +251,10 @@ class _CameraState extends State<Camera> {
                                     ],
                                   )
                                 : Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: <Widget>[
-                                      CircleAvatar(
+                                      widget.showBackButton 
+                                      ? CircleAvatar(
                                         child: IconButton(
                                           icon: OrientationWidget(
                                             orientation: orientation,
@@ -258,8 +267,14 @@ class _CameraState extends State<Camera> {
                                         ),
                                         backgroundColor: Colors.black38,
                                         radius: 25.0,
+                                      )
+                                      : CircleAvatar(
+                                        child: Container(),
+                                        backgroundColor: Colors.transparent,
+                                        radius: 25.0,
                                       ),
                                         _getButtonPhoto(),
+                                      widget.cameraSideCanBeChanged ? 
                                       CircleAvatar(
                                         child: RotateIcon(
                                           child: OrientationWidget(
@@ -274,6 +289,11 @@ class _CameraState extends State<Camera> {
                                           },
                                         ),
                                         backgroundColor: Colors.black38,
+                                        radius: 25.0,
+                                      )
+                                      : CircleAvatar(
+                                        child: Container(),
+                                        backgroundColor: Colors.transparent,
                                         radius: 25.0,
                                       )
                                     ],
@@ -332,7 +352,8 @@ class _CameraState extends State<Camera> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: <Widget>[
-                                    CircleAvatar(
+                                    widget.showBackButton 
+                                    ? CircleAvatar(
                                       child: IconButton(
                                         icon: OrientationWidget(
                                           orientation: orientation,
@@ -345,25 +366,33 @@ class _CameraState extends State<Camera> {
                                       ),
                                       backgroundColor: Colors.black38,
                                       radius: 25.0,
+                                    )
+                                    : CircleAvatar(
+                                      child: Container(),
+                                      backgroundColor: Colors.transparent,
+                                      radius: 25.0,
                                     ),
 
                                     _getButtonPhoto(),
-                                    CircleAvatar(
-                                      child: RotateIcon(
-                                        child: OrientationWidget(
-                                          orientation: orientation,
-                                          child: Icon(
-                                            Icons.cached,
-                                            color: Colors.white,
+                                    
+                                    widget.cameraSideCanBeChanged ?
+                                      CircleAvatar(
+                                        child: RotateIcon(
+                                          child: OrientationWidget(
+                                            orientation: orientation,
+                                            child: Icon(
+                                              Icons.cached,
+                                              color: Colors.white,
+                                            ),
                                           ),
+                                          onTap: () {
+                                            bloc.changeCamera();
+                                          },
                                         ),
-                                        onTap: () {
-                                          bloc.changeCamera();
-                                        },
-                                      ),
-                                      backgroundColor: Colors.black38,
-                                      radius: 25.0,
-                                    )
+                                        backgroundColor: Colors.black38,
+                                        radius: 25.0,
+                                      )
+                                    : Container()
                                   ],
                                 );
                         }),
