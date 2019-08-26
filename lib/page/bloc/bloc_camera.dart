@@ -80,9 +80,8 @@ class BlocCamera {
 
   void changeCamera() {
     var list = cameras.value;
-
     if (list.length == 2) {
-      if (controllCamera.description.name == "0") {
+      if (controllCamera.description.lensDirection == CameraLensDirection.back) {
         onNewCameraSelected(list[1]);
         cameraOn.sink.add(1);
       } else {

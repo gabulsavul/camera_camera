@@ -18,7 +18,14 @@ android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 minSdkVersion 21
 ```
 
-
+  ## IOS
+  You need add in **info.plist**
+  ```dart
+    	<key>NSCameraUsageDescription</key>
+      <string>Can I use the camera please?</string>
+      <key>NSMicrophoneUsageDescription</key>
+      <string>Can I use the mic please?</string>
+  ```
 
 ## Mode Photo
 

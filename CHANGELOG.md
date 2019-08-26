@@ -1,3 +1,3 @@
-## 1.0.21+16
+## 1.0.23
 
-* Add git repository
+* Fix error iOS changeCamera for Matheus_Perez
