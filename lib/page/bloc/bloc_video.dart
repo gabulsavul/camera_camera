@@ -127,7 +127,7 @@ class BlocVideo {
       return null;
     }
     videoOn.sink.add(false);
-  /*  Timer.periodic(Duration(seconds: 1), (time) {
+    /*  Timer.periodic(Duration(seconds: 1), (time) {
       var value = timeVideo.value * 60;
       if (time.tick == 63 || videoOn.value == true) {
         onStopButtonPressed();

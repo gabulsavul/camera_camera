@@ -51,7 +51,7 @@ class BlocCamera {
 
   void onTakePictureButtonPressed(bool compressed) {
     takePicture().then((String filePath) async {
-      if(compressed){
+      if (compressed) {
         File compressed = await FlutterNativeImage.compressImage(filePath);
         imagePath.sink.add(compressed);
       } else {
@@ -110,7 +110,6 @@ class BlocCamera {
     File croppedFile = await ImageCropper.cropImage(
       toolbarTitle: "Editar",
       toolbarColor: Colors.black,
-      
       sourcePath: imagePath.value.path,
       ratioX: 1.0,
       ratioY: 1.0,
