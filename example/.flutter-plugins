@@ -1,7 +1,7 @@
-camera=C:\\Users\\Lucas Polazzo\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\camera-0.4.3+2\\
-flutter_native_image=C:\\Users\\Lucas Polazzo\\AppData\\Roaming\\Pub\\Cache\\git\\flutter_native_image-426996b810c8ff3899a6109b65bdab143652e875\\
-image_cropper=C:\\Users\\Lucas Polazzo\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\image_cropper-1.0.2\\
-native_device_orientation=C:\\Users\\Lucas Polazzo\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\native_device_orientation-0.2.0\\
-path_provider=C:\\Users\\Lucas Polazzo\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\path_provider-1.2.0\\
-screen=C:\\Users\\Lucas Polazzo\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\screen-0.0.5\\
-video_player=C:\\Users\\Lucas Polazzo\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\video_player-0.10.2\\
+camera=/Users/lucaspolazzo/.pub-cache/hosted/pub.dartlang.org/camera-0.4.3+2/
+flutter_native_image=/Users/lucaspolazzo/.pub-cache/git/flutter_native_image-426996b810c8ff3899a6109b65bdab143652e875/
+image_cropper=/Users/lucaspolazzo/.pub-cache/hosted/pub.dartlang.org/image_cropper-1.0.0/
+native_device_orientation=/Users/lucaspolazzo/.pub-cache/hosted/pub.dartlang.org/native_device_orientation-0.2.0/
+path_provider=/Users/lucaspolazzo/.pub-cache/hosted/pub.dartlang.org/path_provider-1.2.0/
+screen=/Users/lucaspolazzo/.pub-cache/hosted/pub.dartlang.org/screen-0.0.5/
+video_player=/Users/lucaspolazzo/.pub-cache/hosted/pub.dartlang.org/video_player-0.10.2/

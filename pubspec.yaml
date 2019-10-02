@@ -13,7 +13,7 @@ dependencies:
   camera: ^0.4.3+2
   video_player: ^0.10.0+4
   path_provider: ^1.2.0
-  image_cropper: ^1.0.0
+  image_cropper: 1.0.0
   native_device_orientation: ^0.2.0
   screen: ^0.0.5
   flutter:
