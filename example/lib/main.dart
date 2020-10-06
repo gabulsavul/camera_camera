@@ -1,8 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:camera_camera/camera_camera.dart';
+
+//import '../../lib/page/camera.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,6 +31,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   File val;
 
+  Timer t1;
+
+  Matrix4 matrix = Matrix4.identity();
+  double zoom = 1;
+  double prevZoom = 1;
+  bool showZoom = false;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +50,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   context: context,
                   builder: (context) => Camera(
                         mode: CameraMode.fullscreen,
+                        zoomController: (Function zoomHandler){
+                          return Container(
+                            child: GestureDetector(
+                              onScaleStart: (ScaleStartDetails details) {
+                                print('scalStart');
+                                setState(() => prevZoom = zoom);
+                                setState(() {});
+                              },
+                              onScaleUpdate: (ScaleUpdateDetails details) {
+                                var newZoom = (prevZoom * details.scale);
+
+                                if (newZoom >= 1) {
+                                  if (newZoom > 10) {
+                                    return false;
+                                  }
+                                  setState(() {
+                                    showZoom = true;
+                                    zoom = newZoom;
+                                  });
+
+                                  if (t1 != null) {
+                                    t1.cancel();
+                                  }
+
+                                  t1 = Timer(Duration(milliseconds: 2000), () {
+                                    setState(() {
+                                      showZoom = false;
+                                    });
+                                  });
+                                }
+                                zoomHandler(zoom);
+                              },
+                              onScaleEnd: (ScaleEndDetails details) {
+                                setState(() {});
+                              },
+                            )
+                          );
+                        },
                         //initialCamera: CameraSide.front,
                         //enableCameraChange: false,
                         //  orientationEnablePhoto: CameraOrientation.landscape,

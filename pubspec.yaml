@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   rxdart: ^0.24.0
-  camera: ^0.5.7+4
+  flutter_better_camera: ^0.6.1
   video_player: ">=0.10.9+2 <2.0.0"
   path_provider: ^1.6.7
   native_device_orientation: ^0.3.0

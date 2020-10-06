@@ -1,7 +1,7 @@
 import 'package:camera_camera/page/bloc/bloc_video.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
+import 'package:flutter_better_camera/camera.dart';
 import 'package:wakelock/wakelock.dart';
 
 class Video extends StatefulWidget {

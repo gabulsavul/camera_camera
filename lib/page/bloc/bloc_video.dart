@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
+import 'package:flutter_better_camera/camera.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';

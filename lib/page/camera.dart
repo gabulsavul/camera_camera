@@ -3,7 +3,7 @@ import 'package:camera_camera/page/bloc/bloc_camera.dart';
 import 'package:camera_camera/shared/widgets/orientation_icon.dart';
 import 'package:camera_camera/shared/widgets/rotate_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
+import 'package:flutter_better_camera/camera.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -24,6 +24,9 @@ class Camera extends StatefulWidget {
   final Function(CameraLensDirection direction, List<CameraDescription> cameras)
       onChangeCamera;
 
+  final Function(Function zoom)
+      zoomController;
+
   const Camera({
     Key key,
     this.imageMask,
@@ -34,6 +37,7 @@ class Camera extends StatefulWidget {
     this.onChangeCamera,
     this.initialCamera = CameraSide.back,
     this.enableCameraChange = true,
+    this.zoomController
   }) : super(key: key);
   @override
   _CameraState createState() => _CameraState();
@@ -215,6 +219,8 @@ class _CameraState extends State<Camera> {
                                 Center(
                                   child: widget.imageMask,
                                 ),
+                              if(widget.zoomController != null)
+                                widget.zoomController(bloc.controllCamera.zoom)
                             ],
                           );
                         }
