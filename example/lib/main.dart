@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -47,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           print('$direction');
                           print('--------------');
                         },
+                        //onFile: (file) => val = file,
 
                         // imageMask: CameraFocus.square(
                         //   color: Colors.black.withOpacity(0.5),

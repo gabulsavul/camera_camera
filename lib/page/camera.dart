@@ -254,13 +254,14 @@ class _CameraState extends State<Camera> {
                                             child: Icon(Icons.check,
                                                 color: Colors.white),
                                           ),
-                                          onPressed: () {
+                                          onPressed: () async {
                                             if (widget.onFile == null)
                                               Navigator.pop(context,
                                                   bloc.imagePath.value);
                                             else {
-                                              widget
+                                              await widget
                                                   .onFile(bloc.imagePath.value);
+                                              Navigator.pop(context);
                                             }
                                           },
                                         ),
@@ -275,6 +276,7 @@ class _CameraState extends State<Camera> {
                                     children: <Widget>[
                                       CircleAvatar(
                                         child: IconButton(
+                                          padding: EdgeInsets.only(left: 8),
                                           icon: OrientationWidget(
                                             orientation: orientation,
                                             child: Icon(Icons.arrow_back_ios,
