@@ -153,4 +153,8 @@ class CameraCameraController {
     await _controller.dispose();
     return;
   }
+
+  double aspectRatio() {
+    return _controller.value.aspectRatio;
+  }
 }

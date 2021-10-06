@@ -41,7 +41,10 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                 },
                 child: Stack(
                   children: [
-                    Center(child: widget.controller.buildPreview()),
+                    AspectRatio(
+                        aspectRatio: 1 / widget.controller.aspectRatio(),
+                        child: Center(child: widget.controller.buildPreview())
+                    ),
                     if (widget.enableZoom)
                       Positioned(
                         bottom: 96,
@@ -49,7 +52,7 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                         right: 0.0,
                         child: CircleAvatar(
                           radius: 20,
-                          backgroundColor: Colors.black.withOpacity(0.6),
+                          backgroundColor: Colors.grey.withOpacity(0.6),
                           child: IconButton(
                             icon: Center(
                               child: Text(
