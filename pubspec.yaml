@@ -8,16 +8,16 @@ environment:
   sdk: ">=2.12.0-0.0 <3.0.0"
 
 dependencies:
-  camera: ^0.8.0-nullsafety.2
+  camera: ^0.9.4+3
   font_awesome_flutter: ^9.0.0-nullsafety
-  rxdart: ^0.26.0
+  rxdart: ^0.27.2
   flutter:
     sdk: flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mocktail: ^0.0.1-dev.11
+  mocktail: ^0.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
