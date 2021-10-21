@@ -26,7 +26,7 @@ class CameraBloc {
   final statusStream =
       BehaviorSubject<CameraStatus>.seeded(CameraStatusEmpty());
   CameraStatus get status =>
-      statusStream.valueWrapper?.value ?? CameraStatusEmpty();
+      statusStream.valueOrNull ?? CameraStatusEmpty();
   set status(CameraStatus status) => statusStream.sink.add(status);
 
   void init() async {

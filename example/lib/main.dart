@@ -36,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         MaterialPageRoute(
             builder: (_) => CameraCamera(
+                  resolutionPreset: ResolutionPreset.ultraHigh,
                   onFile: (file) {
                     photos.add(file);
                     Navigator.pop(context);
@@ -53,8 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: GridView.builder(
-        gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemCount: photos.length,
         itemBuilder: (_, index) => Padding(
           padding: const EdgeInsets.all(8.0),
