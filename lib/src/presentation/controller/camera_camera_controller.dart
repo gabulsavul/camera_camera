@@ -24,8 +24,7 @@ class CameraCameraController {
     required this.onPath,
     this.enableAudio = false,
   }) {
-    _controller = CameraController(cameraDescription, resolutionPreset,
-        enableAudio: enableAudio);
+    _controller = CameraController(cameraDescription, resolutionPreset, enableAudio: enableAudio);
   }
 
   void init() async {
@@ -40,14 +39,7 @@ class CameraCameraController {
         await _controller.setFlashMode(FlashMode.off);
       } catch (e) {}
 
-      status = CameraCameraSuccess(
-          camera: Camera(
-              maxZoom: maxZoom,
-              minZoom: minZoom,
-              zoom: minZoom,
-              maxExposure: maxExposure,
-              minExposure: minExposure,
-              flashMode: FlashMode.off));
+      status = CameraCameraSuccess(camera: Camera(maxZoom: maxZoom, minZoom: minZoom, zoom: minZoom, maxExposure: maxExposure, minExposure: minExposure, flashMode: FlashMode.off));
     } on CameraException catch (e) {
       status = CameraCameraFailure(message: e.description ?? "", exception: e);
     }
@@ -98,8 +90,7 @@ class CameraCameraController {
   void setZoomLevel(double zoom) async {
     if (zoom != 1) {
       var cameraZoom = double.parse(((zoom)).toStringAsFixed(1));
-      if (cameraZoom >= status.camera.minZoom &&
-          cameraZoom <= status.camera.maxZoom) {
+      if (cameraZoom >= status.camera.minZoom && cameraZoom <= status.camera.maxZoom) {
         final camera = status.camera.copyWith(zoom: cameraZoom);
         status = CameraCameraSuccess(camera: camera);
         await _controller.setZoomLevel(cameraZoom);
@@ -154,5 +145,13 @@ class CameraCameraController {
   Future<void> dispose() async {
     await _controller.dispose();
     return;
+  }
+
+  double aspectRatio() {
+    return _controller.value.aspectRatio;
+  }
+
+  Size? size() {
+    return _controller.value.previewSize;
   }
 }
