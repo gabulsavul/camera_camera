@@ -78,6 +78,16 @@ class CameraCameraController {
     _controller.setExposureMode(exposureMode);
   }
 
+  void openShutter() {
+    final camera = status.camera;
+    status = CameraCameraSuccess(camera: camera, shatterOpen: true);
+  }
+
+  void closeShutter() {
+    final camera = status.camera;
+    status = CameraCameraSuccess(camera: camera, shatterOpen: false);
+  }
+
   void setFocusPoint(Offset focusPoint) async {
     final camera = status.camera.copyWith(focusPoint: focusPoint);
     status = CameraCameraSuccess(camera: camera);
@@ -143,11 +153,13 @@ class CameraCameraController {
   }
 
   void takePhoto() async {
+    this.closeShutter();
     try {
       final file = await _controller.takePicture();
 
       onPath(file.path);
     } catch (e) {}
+    this.openShutter();
   }
 
   double get aspectRatio => _controller.value.aspectRatio;

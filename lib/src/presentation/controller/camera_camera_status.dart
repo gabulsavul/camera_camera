@@ -23,8 +23,10 @@ class CameraCameraFailure extends CameraCameraStatus {
 
 class CameraCameraSuccess extends CameraCameraStatus {
   Camera camera;
+  bool shatterOpen;
   CameraCameraSuccess({
     required this.camera,
+    this.shatterOpen = true,
   });
 }
 
@@ -37,7 +39,7 @@ extension CameraCameraStatusExt on CameraCameraStatus {
     Function(String message, dynamic exception)? failure,
     Function()? loading,
     required Function() orElse,
-    Function(Camera camera)? success,
+    Function(Camera camera, bool shutter)? success,
   }) {
     switch (this.runtimeType) {
       case CameraCameraFailure:
@@ -61,7 +63,7 @@ extension CameraCameraStatusExt on CameraCameraStatus {
       case CameraCameraSuccess:
         {
           if (success != null) {
-            return success(this.success.camera);
+            return success(this.success.camera, this.success.shatterOpen);
           } else {
             return orElse();
           }
