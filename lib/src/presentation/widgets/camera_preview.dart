@@ -38,91 +38,96 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
     return ValueListenableBuilder<CameraCameraStatus>(
       valueListenable: widget.controller.statusNotifier,
       builder: (_, status, __) => status.when(
-          success: (camera) => GestureDetector(
-                onScaleUpdate: (details) {
-                  widget.controller.setZoomLevel(details.scale);
-                },
-                child: Stack(
-                  children: [
-                    Center(
-                      child: StreamBuilder<DeviceOrientationChangedEvent>(
-                        builder: (context, snapshot) {
-                          if (snapshot.data == null) {
-                            return _wrapInRotatedBox(
-                              child: widget.controller.buildPreview(),
-                              orentation:
-                                  widget.controller.getApplicableOrientation(),
-                            );
-                          }
+          success: (camera, shutter) {
+            if (shutter == false) {
+              return Container(color: Colors.black);
+            }
+            return GestureDetector(
+              onScaleUpdate: (details) {
+                widget.controller.setZoomLevel(details.scale);
+              },
+              child: Stack(
+                children: [
+                  Center(
+                    child: StreamBuilder<DeviceOrientationChangedEvent>(
+                      builder: (context, snapshot) {
+                        if (snapshot.data == null) {
                           return _wrapInRotatedBox(
                             child: widget.controller.buildPreview(),
-                            orentation: snapshot.data!.orientation,
+                            orentation:
+                                widget.controller.getApplicableOrientation(),
                           );
-                        },
-                        stream: CameraPlatform.instance
-                            .onDeviceOrientationChanged(),
+                        }
+                        return _wrapInRotatedBox(
+                          child: widget.controller.buildPreview(),
+                          orentation: snapshot.data!.orientation,
+                        );
+                      },
+                      stream:
+                          CameraPlatform.instance.onDeviceOrientationChanged(),
+                    ),
+                  ),
+                  if (widget.enableZoom)
+                    Positioned(
+                      bottom: 96,
+                      left: 0.0,
+                      right: 0.0,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.black.withOpacity(0.6),
+                        child: IconButton(
+                          icon: Center(
+                            child: Text(
+                              "${camera.zoom.toStringAsFixed(1)}x",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          ),
+                          onPressed: () {
+                            widget.controller.zoomChange();
+                          },
+                        ),
                       ),
                     ),
-                    if (widget.enableZoom)
-                      Positioned(
-                        bottom: 96,
-                        left: 0.0,
-                        right: 0.0,
+                  if (widget.controller.flashModes.length > 1)
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(32.0),
                         child: CircleAvatar(
                           radius: 20,
                           backgroundColor: Colors.black.withOpacity(0.6),
                           child: IconButton(
-                            icon: Center(
-                              child: Text(
-                                "${camera.zoom.toStringAsFixed(1)}x",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 12),
-                              ),
-                            ),
                             onPressed: () {
-                              widget.controller.zoomChange();
+                              widget.controller.changeFlashMode();
                             },
-                          ),
-                        ),
-                      ),
-                    if (widget.controller.flashModes.length > 1)
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.all(32.0),
-                          child: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Colors.black.withOpacity(0.6),
-                            child: IconButton(
-                              onPressed: () {
-                                widget.controller.changeFlashMode();
-                              },
-                              icon: Icon(
-                                camera.flashModeIcon,
-                                color: Colors.white,
-                              ),
+                            icon: Icon(
+                              camera.flashModeIcon,
+                              color: Colors.white,
                             ),
-                          ),
-                        ),
-                      ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 24),
-                        child: InkWell(
-                          onTap: () {
-                            widget.controller.takePhoto();
-                          },
-                          child: CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Colors.white,
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 24),
+                      child: InkWell(
+                        onTap: () {
+                          widget.controller.takePhoto();
+                        },
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+            );
+          },
           failure: (message, _) => Container(
                 color: Colors.black,
                 child: Text(message),
