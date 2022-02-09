@@ -10,7 +10,7 @@ environment:
 dependencies:
   camera: ^0.9.4+5 
   font_awesome_flutter: ^9.0.0-nullsafety
-  rxdart: ^0.26.0
+  rxdart: ^0.27.3
   flutter:
     sdk: flutter
 
