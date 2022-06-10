@@ -15,7 +15,9 @@ class CameraCameraController {
   late CameraController _controller;
 
   final statusNotifier = ValueNotifier<CameraCameraStatus>(CameraCameraEmpty());
+
   CameraCameraStatus get status => statusNotifier.value;
+
   set status(CameraCameraStatus status) => statusNotifier.value = status;
 
   CameraCameraController({
@@ -25,8 +27,7 @@ class CameraCameraController {
     required this.onPath,
     this.enableAudio = false,
   }) {
-    _controller = CameraController(cameraDescription, resolutionPreset,
-        enableAudio: enableAudio);
+    _controller = CameraController(cameraDescription, resolutionPreset, enableAudio: enableAudio);
   }
 
   void init() async {
@@ -99,8 +100,7 @@ class CameraCameraController {
   void setZoomLevel(double zoom) async {
     if (zoom != 1) {
       var cameraZoom = double.parse(((zoom)).toStringAsFixed(1));
-      if (cameraZoom >= status.camera.minZoom &&
-          cameraZoom <= status.camera.maxZoom) {
+      if (cameraZoom >= status.camera.minZoom && cameraZoom <= status.camera.maxZoom) {
         final camera = status.camera.copyWith(zoom: cameraZoom);
         status = CameraCameraSuccess(camera: camera);
         await _controller.setZoomLevel(cameraZoom);
@@ -152,7 +152,16 @@ class CameraCameraController {
 
   double get aspectRatio => _controller.value.aspectRatio;
 
-  Widget buildPreview() => _controller.buildPreview();
+  Widget buildPreview() {
+    var aspectRatio = _controller.value.aspectRatio;
+    if (aspectRatio > 1) {
+      aspectRatio = 1 / aspectRatio;
+    }
+    return AspectRatio(
+      aspectRatio: aspectRatio,
+      child: _controller.buildPreview(),
+    );
+  }
 
   DeviceOrientation getApplicableOrientation() {
     return _controller.value.isRecordingVideo
