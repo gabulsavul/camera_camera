@@ -14,7 +14,7 @@ class CameraCameraController {
   List<FlashMode> flashModes;
   void Function(String path) onPath;
   bool enableAudio;
-
+  bool _hasListenImageStream = false;
   late CameraController _controller;
 
   final statusNotifier = ValueNotifier<CameraCameraStatus>(CameraCameraEmpty());
@@ -189,6 +189,23 @@ class CameraCameraController {
 
   Widget buildPreview() => _controller.buildPreview();
 
+  void addStreamImage(ValueChanged<CameraImage> onListen) {
+    if (kIsWeb) {
+      throw CameraCameraFailure(
+          message: "Stream Imagens only supported from iOS and Android");
+    }
+    _hasListenImageStream = true;
+    _controller.startImageStream(onListen);
+  }
+
+  void stopStreamImage() {
+    if (_hasListenImageStream) {
+      _controller.stopImageStream();
+    } else {
+      _hasListenImageStream = false;
+    }
+  }
+
   DeviceOrientation getApplicableOrientation() {
     return _controller.value.isRecordingVideo
         ? _controller.value.recordingOrientation!
@@ -198,7 +215,9 @@ class CameraCameraController {
   }
 
   Future<void> dispose() async {
+    stopStreamImage();
     await _controller.dispose();
+
     return;
   }
 }

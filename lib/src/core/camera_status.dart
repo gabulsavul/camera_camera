@@ -22,7 +22,7 @@ class CameraStatusFailure extends CameraStatus {
   dynamic error;
   CameraStatusFailure({
     required this.message,
-    required this.error,
+    this.error,
   });
 
   @override

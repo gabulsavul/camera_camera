@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         MaterialPageRoute(
             builder: (_) => CameraCamera(
+                  listenImage: print,
                   onFile: (file) {
                     photos.add(file);
                     Navigator.pop(context);

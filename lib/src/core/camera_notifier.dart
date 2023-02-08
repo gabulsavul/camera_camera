@@ -83,8 +83,9 @@ class CameraNotifier extends ChangeNotifier {
   }
 
   void startPreview(
-    ResolutionPreset resolutionPreset,
-  ) async {
+    ResolutionPreset resolutionPreset, {
+    ValueChanged<CameraImage>? listenImage,
+  }) async {
     await _cameraController?.dispose();
     await Future.delayed(Duration(milliseconds: 800));
 
@@ -102,6 +103,14 @@ class CameraNotifier extends ChangeNotifier {
         controller: _cameraController!,
         cameras: cameras,
         indexSelected: indexSelected);
+
+    if (listenImage != null) {
+      try {
+        _cameraController!.addStreamImage(listenImage);
+      } catch (e) {
+        status = CameraStatusFailure(message: e.toString());
+      }
+    }
   }
 
   void dispose() {

@@ -33,16 +33,21 @@ class CameraCamera extends StatefulWidget {
   //You can define your prefered aspect ratio, 1:1, 16:9, 4:3 or full screen
   final CameraMode mode;
 
-  CameraCamera({
-    Key? key,
-    this.resolutionPreset = ResolutionPreset.ultraHigh,
-    required this.onFile,
-    this.cameraSide = CameraSide.all,
-    this.flashModes = FlashMode.values,
-    this.mode = CameraMode.ratio16s9,
-    this.enableZoom = true,
-    this.enableAudio = false,
-  }) : super(key: key);
+  // You can listen image from camera frame by frame
+  // This option running only iOS or Android devices
+  final ValueChanged<CameraImage>? listenImage;
+
+  CameraCamera(
+      {Key? key,
+      this.resolutionPreset = ResolutionPreset.ultraHigh,
+      required this.onFile,
+      this.cameraSide = CameraSide.all,
+      this.flashModes = FlashMode.values,
+      this.mode = CameraMode.ratio16s9,
+      this.enableZoom = true,
+      this.enableAudio = false,
+      this.listenImage})
+      : super(key: key);
 
   @override
   _CameraCameraState createState() => _CameraCameraState();
@@ -64,7 +69,8 @@ class _CameraCameraState extends State<CameraCamera> {
       return state.when(
           orElse: () {},
           selected: (camera) async {
-            controller.startPreview(widget.resolutionPreset);
+            controller.startPreview(widget.resolutionPreset,
+                listenImage: widget.listenImage);
           });
     });
     controller.init();
@@ -124,10 +130,7 @@ class _CameraCameraState extends State<CameraCamera> {
                         )
                     ],
                   ),
-              failure: (message, _) => Container(
-                    color: Colors.black,
-                    child: Text(message),
-                  ),
+              failure: (message, _) => ErrorWidget(message),
               orElse: () => Container(
                     color: Colors.black,
                   )),
