@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
 import 'package:camera/camera.dart';
+
 import 'package:camera_camera/src/presentation/controller/camera_camera_controller.dart';
 import 'package:camera_camera/src/shared/entities/camera_mode.dart';
 import 'package:camera_camera/src/shared/entities/camera_side.dart';
-import 'package:flutter/material.dart';
 
 import 'camera_service.dart';
 import 'camera_status.dart';
@@ -54,7 +56,7 @@ class CameraNotifier extends ChangeNotifier {
     try {
       final cameras = await service.getCameras();
       if (cameraSide == CameraSide.back || cameraSide == CameraSide.front) {
-        cameras.removeWhere((e) => e.lensDirection == cameraSide.lensDirection);
+        cameras.removeWhere((e) => e.lensDirection != cameraSide.lensDirection);
       }
       status = CameraStatusSuccess(cameras: cameras);
       return;
